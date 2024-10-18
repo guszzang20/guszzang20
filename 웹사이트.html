@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link href="main.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <style>
+        div,
+        input,
+        textarea {
+            box-sizing: border-box; // 박스 padding이 달라도  width 사이즈 동일
+        }
+
+        body {
+            margin: 0px;
+        }
+
+        html {
+            line-height: 1.15; // 기본 행간 높이 }
+
+            @font-face {
+                font-family: 'nanum';
+                font-weight: 800;
+                src: url(font/NanumSquareB.woff);
+            }
+
+    </style>
+</head>
+
+<body style="margin: 0; height: 6000px;">
+
+    <div style="width:100%; height: 50vh; background: #4C7CCE; padding-top: 60px; padding-left: 80px; display: block; position: relative;">
+        <div style="font-family: 'nanum'; color: white; ">Landing Page for Apps</div>
+        <div style="font-size: 18px; width: 30%; margin-top: 20px; color:white; margin-bottom: 20px;">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Hic, veniam iste iure quam molestias ver iusto repellat.</div>
+
+        <buttom style="background: black; border-radius: 5px; color:white; padding: 15px; font-family: 'nanum'; font-size: 18px; cursor: pointer;">Show More</buttom>
+
+        <img src="iphone.png" style="width: 20%; position: absolute; right: 10vw; bottom: 0vh;">
+    </div>
+
+    <div style="align-content: center; text-align: center; width: 100%; height: 30vh; font-family: 'nanum';">
+        <div style="margin-bottom: 20px;">
+            It is the perfect theme for your next Project!<br>
+            <span style="font-size: 20px;">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</span><br>
+        </div>
+        <buttom style="background: black; border-radius: 5px; color:white; padding: 15px; font-family: 'nanum'; font-size: 18px; cursor: pointer;">Show Portfolio</buttom>
+    </div>
+    <div style="width:100%; height: 45vh; background: #4C5FCC;display: block; padding-top: 50px; text-align: center;">
+        <div style="color:white; font-family: 'nanum'; font-size: 18px;">service</div>
+        <div style="color:white; font-family: 'nanum'; font-size: 24px; margin-bottom: 30px">What we offer</div>
+
+        <div class="icon">
+            <div class="icon-item">
+                <i class="fa-solid fa-reply"></i>
+                <h4>Responsive</h4>
+                <p>Lorem ipsum dolor s</p>
+            </div>
+            <div class="icon-item">
+                <i class="fa-solid fa-flask"></i>
+                <h4>Experiments</h4>
+                <p>Lorem ipsum dolor s</p>
+            </div>
+            <div class="icon-item">
+                <i class="fa-solid fa-disease"></i>
+                <h4>Quickness</h4>
+                <p>Lorem ipsum dolor s</p>
+            </div>
+            <div class="icon-item">
+                <i class="fa-solid fa-truck-fast"></i>
+                <h4>Global Shipping</h4>
+                <p>Lorem ipsum dolor s</p>
+            </div>
+        </div>
+    </div>
+    <div style="width: 100%; height: 10vh; font-family: 'nanum'; text-align: center; margin-top: 80px; margin-bottom: 20px;">
+        <span style="margin-bottom: 0;">portfolio</span>
+        <p style="margin-top: 0;">What we can do</p>
+    </div>
+    <div class="pictures">
+        <div style="width: 50%; height: 50%; position: relative;">
+            <div class="frame"></div>
+            <img src="portfolio-1.jpg" style="width: 100%; height: 100%; z-index: 0;">
+        </div>
+        <div style="background: blue; width: 50%; height: 50%;">
+            <img src="portfolio-2.jpg" style="width: 100%; height: 100%">
+        </div>
+        <div style="background: purple; width: 50%; height: 50%;">
+            <img src="portfolio-3.jpg" style="width: 100%; height: 100%">
+        </div>
+        <div style="background: green; width: 50%; height: 50%;">
+            <img src="portfolio-4.jpg" style="width: 100%; height: 100%">
+        </div>
+    </div>
+
+    <div class="sns" style="display: flex; justify-content: center; text-align: center; align-items: center; gap: 60px; margin-top: 60px;">
+        <div><i class="fa-brands fa-twitter"></i></div>
+        <div><i class="fa-brands fa-facebook"></i></div>
+        <div><i class="fa-brands fa-instagram"></i></div>
+    </div>
+
+
+    <div class="card mx-auto mt-5" style="width: 18rem;">
+        <img src="portfolio-3.jpg" class="card-img-top">
+        <div class="card-body shadow p-3 bg-body-tertiary rounded">
+            <span class="badge rounded-pill text-bg-primary">New</span>
+            <h5 class="card-title mt-2">Blog post title</h5>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            <div class="d-flex align-items-center">
+                <div class="flex-shrink-0 w-25 text-center">
+                    <img src="sonic.png" class="w-50 mx-auto" style="">
+                </div>
+                <div class="flex-grow-1 ms-2">
+                    <h4 class="fs-6">Kelly Rown</h4>
+                    <span class="text-secondary">March 12, 2021 6 min read</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br>
+    <br>
+    <br>
+
+
+    <div class="cards container-fluid d-flex justify-content-center">
+        <div class="row" style="gap:20px">
+            <div class="card col-md-3" style="width: 450px;">
+                <img class="card-img-top" src="portfolio-1.jpg">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+            </div>
+            <div class="card col-md-3" style="width: 450px;">
+                <img class="card-img-top" src="portfolio-2.jpg">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+            </div>
+            <div class="card col-md-3" style="width: 450px;">
+                <img class="card-img-top" src="portfolio-3.jpg">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+            </div>
+            <div class="card col-md-3" style="width: 450px;">
+                <img class="card-img-top" src="portfolio-4.jpg">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+
+    <div class="aurthors">
+        <div class=" d-flex justify-content-center align-items-center" style="gap:20px;">
+            <div class="col-md-4" style="width: 600px; height: 150px; background: grey; display: flex; ">
+                <div style="width: 25%; height: auto">
+                    <img src="author.png">
+                </div>
+                <div style="width: 75%; height: auto; background: yellow; text-align: center; align-content: center; overflow: auto;">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellendus deserunt tempore</div>
+            </div>
+            <div class="col-md-4" style="width: 600px; height: 150px; background: grey; display: flex;">
+                <div style="width: 25%; height: 100%; ">
+                    <img src="author2.png">
+                </div>
+                <div style="width: 75%; height: 100%; background: yellow; text-align: center; align-content: center; overflow: auto;">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellendus deserunt tempore</div>
+            </div>
+            <div class="col-md-4" style="width: 600px; height: 150px; background: grey; display: flex;">
+                <div style="width: 25%; height: 100%;">
+                    <img src="author3.png">
+                </div>
+                <div style="width: 75%; height: 100%; background: yellow; text-align: center; align-content: center; overflow: auto;">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellendus deserunt tempore</div>
+            </div>
+        </div>
+    </div>
+
+
+<br>
+<br>
+<br>
+<br>
+<br>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 col-lg-3 box">
+        <img class="card-img-top" src="portfolio-1.jpg">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div></div>
+        <div class="col-md-6 col-lg-3 box">  <img class="card-img-top" src="portfolio-2.jpg">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div></div>
+        <div class="col-md-6 col-lg-3 box"> <img class="card-img-top" src="portfolio-3.jpg">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div></div>
+        <div class="col-md-6 col-lg-3 box">   <img class="card-img-top" src="portfolio-4.jpg">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div></div>
+    </div>
+</div>
+
+<br>
+<br>
+<br>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-2 col-md-4 order-md-2 text-center d-flex align-items-center justify-content-center">
+            <img src="author.png" style="width: 100%; max-width: 100px;  display: flex; align-items: center;">
+        </div>
+        <div class="col-10 col-md-4 order-md-1 text-md-center">
+            Lorem ipsum dolor sit amet, consecteturnde dolore
+        </div>
+        <div class="col-md-4 order-md-3"></div>
+    </div>
+    <div class="row 2">
+        <div class="col order-md-2 text-center">
+            <img src="author2.png">
+        </div>
+        <div class="col order-md-3">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam quaerat enim accusantium unde dolore
+        </div>
+        <div class="col-md-4 order-md-1"></div>
+    </div>
+    <div class="row 3">
+        <div class="col order-md-2 text-center">
+            <img src="author3.png">
+        </div>
+        <div class="col order-md-1">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam quaerat enim accusantium unde dolore
+        </div>
+        <div class="col-md-4 order-md-3"></div>
+    </div>
+</div>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+</body>
+
+</html>
+
+
