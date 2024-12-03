@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>웹개발 기능대회</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
+    <style>
+        .cart-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 50px;
+        }
+
+        .cart {
+            width: 1280px;
+            height: 600px;
+            background-color: black;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px;
+            border-radius: 10px;
+        }
+
+        .modal1,
+        .modal2 {
+            position: fixed;
+            margin: auto;
+            padding: 30px;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            /* 기본적으로 숨김 */
+        }
+
+        .white-bg {
+            background: white;
+            padding: 30px;
+            border-radius: 5px;
+        }
+
+        ul.list {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            border-bottom: 1px solid #ccc;
+        }
+
+        ul.list::after {
+            content: '';
+            display: block;
+            clear: both;
+        }
+
+        .tab-button {
+            display: block;
+            padding: 20px 20px 20px 20px;
+            float: left;
+            margin-right: 7px;
+            margin-bottom: -1px;
+            color: grey;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.5s;
+        }
+
+        .orange {
+            border-top: 2px solid orange;
+            border-right: 1px solid #ccc;
+            border-bottom: 1px solid white;
+            border-left: 1px solid #ccc;
+            color: black;
+            margin-top: -2px;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 10px;
+        }
+
+        .show {
+            display: block;
+        }
+
+        .noshow {
+            display: none;
+        }
+    </style>
+</head>
+
+<body style="height: 3000px;">
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="collapse navbar-collapse d-flex justify-content-center" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="index.html">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="about.html">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="product.html">Product</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="profile.html">profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="SNS.html">SNS</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="admin.html">Admin</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="cart.html">Cart</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <br>
+
+    <div style="" class="d-flex align-items-center justify-content-between">
+        <div class="container">
+            <form class="d-flex" role="search" style="max-width: 25%; margin-left: 15%;">
+                <input id="searchInput" class="form-control me-2" type="search" placeholder="검색어 입력">
+            </form>
+        </div>
+        <div id="dark" style="margin-right: 16%; scale:1.4;" class="ms-auto">
+            <span class="badge bg-dark">Dark 🔄</span>
+        </div>
+    </div>
+
+    <script>
+        var count = 0;
+        document.getElementsByClassName('badge')[0].addEventListener('click', function() {
+            count = count + 1;
+            console.log(count);
+
+            if (count % 2 == 1) {
+                document.getElementsByClassName('badge')[0].innerHTML = 'light 🔄'
+            } else {
+                document.getElementsByClassName('badge')[0].innerHTML = 'dark 🔄';
+            }
+
+        });
+    </script>
+
+    <div class="container mt-4">
+        <div class="row" id="product-list"></div>
+    </div>
+
+    <script>
+        // 전역 변수 선언
+        let products = [];
+
+        // AJAX 요청
+        $.ajax({
+            url: 'store.json',
+            type: 'GET',
+            dataType: 'json',
+            success: function(data) {
+                products = data.products;
+                renderProducts(products);
+            },
+            error: function(xhr, status, error) {
+                console.error('AJAX 요청 오류: ', error);
+            }
+        });
+
+        // 상품 목록 렌더링 함수
+        function renderProducts(items) {
+            var productList = document.querySelector('#product-list');
+            productList.innerHTML = '';
+
+            items.forEach(function(item) {
+                var template = `
+                    <div class="col-md-3" id="${item.id}" draggable="true" ondragstart="drag(event)">
+                        <div class="card">
+                            <img src="${item.photo}" class="card-img-top">
+                            <div class="card-body">
+                                <h5 class="card-title">${item.title}</h5>
+                                <p class="card-text">${item.brand}</p>
+                                <p class="card-text">가격: ${item.price}</p>
+                                <button class="add btn btn-primary" data-id="${item.id}">담기</button>
+                            </div>
+                        </div>
+                    </div>`;
+                productList.insertAdjacentHTML('beforeend', template);
+            });
+        }
+
+        // 검색 기능
+        document.querySelector('#searchInput').addEventListener('input', function() {
+            var filter = this.value.toLowerCase();
+            var filteredProducts = products.filter(function(item) {
+                return item.title.toLowerCase().includes(filter) || item.brand.toLowerCase().includes(filter);
+            });
+            renderProducts(filteredProducts);
+        });
+
+        // Drag & Drop 기능
+        function allowDrop(e) {
+            e.preventDefault();
+        }
+
+        function drag(e) {
+            e.dataTransfer.setData("text", e.target.id);
+        }
+
+        function drop(e) {
+            e.preventDefault();
+            var data = e.dataTransfer.getData("text");
+            var draggedElement = document.getElementById(data);
+            var clonedElement = draggedElement.cloneNode(true);
+            e.target.appendChild(clonedElement);
+        }
+    </script>
+
+    <div style="background: lightgrey; margin-left: 12%; margin-right: 12%;">
+        <h3 style="text-align: center; margin-top: 10px; margin-bottom: 5px;">장바구니(드레그 가능)</h3>
+        <div class="cart-container">
+            <div class="cart" id="cart" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+        </div>
+    </div>
+
+    <div style="margin-left: 1100px; margin-top: 5px; font-size: 36px; font-weight: bold;">합계 <span id="price"></span></div>
+    <button style="margin-left: 1100px; margin-top: 5px;" class="btn btn-primary" id="total">전송</button>
+
+    <div class="modal1">
+        <div class="white-bg">
+            <h4>성함</h4>
+            <input type="text" id="name">
+            <h4>연락처</h4>
+            <input type="text" id="phone">
+            <button class="꺼지라고 btn btn-secondary">닫기</button>
+            <button class="show-receipt btn btn-success">입력완료</button>
+        </div>
+    </div>
+
+    <div class="modal2">
+        <div class="white-bg">
+            <h4>영수증</h4>
+            <canvas id="canvas" width="350" height="550"></canvas>
+            <button class="니도꺼지라고 btn btn-secondary">닫기</button>
+        </div>
+    </div>
+
+    <!-- 모달 기능 -->
+    <script>
+        document.querySelector('#total').addEventListener('click', function() {
+            document.querySelector('.modal1').style.display = 'block';
+        });
+
+        document.querySelector('.꺼지라고').addEventListener('click', function() {
+            document.querySelector('.modal1').style.display = 'none';
+        });
+
+        document.querySelector('.니도꺼지라고').addEventListener('click', function() {
+            document.querySelector('.modal2').style.display = 'none';
+        });
+
+        document.querySelector('.show-receipt').addEventListener('click', function() {
+            var name = document.querySelector('#name').value;
+            var phone = document.querySelector('#phone').value;
+            var canvas = document.querySelector('#canvas');
+            var c = canvas.getContext('2d');
+            c.font = '16px dotum';
+            c.fillText('구매자: ' + name, 20, 30);
+            c.fillText('연락처: ' + phone, 20, 50);
+            document.querySelector('.modal2').style.display = 'block';
+        });
+    </script>
+
+    <br>
+
+    <div class="container mt-3">
+        <div class="card p-3">
+            <span id="product">상품명</span><span id="prices">가격</span>
+        </div>
+    </div>
+
+    <script>
+        var car = {
+            name: "의류",
+            price: [50000, 3000, 4000]
+        }
+        document.querySelector('#product').innerHTML = car.name;
+        document.querySelector('#prices').innerHTML = car.price[1];
+    </script>
+
+    <form class="container my-5 form-group">
+        <p>상품선택</p>
+        <select class="form-select mt-2">
+            <option>모자</option>
+            <option>셔츠</option>
+            <option>바지</option>
+        </select>
+        <select class="form-select mt-2 noshow">
+            <option>S</option>
+            <option>M</option>
+        </select>
+    </form>
+
+    <script>
+        document.querySelectorAll('.form-select')[0].addEventListener('input', function(e) {
+            if (e.currentTarget.value == '셔츠') {
+                document.querySelectorAll('.form-select')[1].classList.remove('noshow')
+            } else if (e.currentTarget.value == '바지') {
+
+                document.querySelectorAll('.form-select')[1].classList.remove('noshow')
+                var pants = [28, 30, 32, 34];
+                document.querySelectorAll('.form-select')[1].innerHTML = '';
+                pants.forEach(function(item) {
+                    document.querySelectorAll('.form-select')[1].insertAdjacentHTML('beforeend', `<option>${item}</option>`)
+                })
+
+            }
+        })
+
+        $.get('https://codingapple1.github.io/price.json').done(function(data) {
+            data;
+            console.log(data.price);
+        })
+
+        fetch('https://codingapple1.github.io/price.json')
+            .then(res => res.json())
+            .then(data => {
+                console.log(data)
+            })
+            .catch(error => {
+                console.log(error)
+            })
+    </script>
+
+    <div class="container mt-5">
+        <ul class="list" style="">
+            <li class="tab-button" data-id="0">Products</li>
+            <li class="tab-button" data-id="1" orange>Information</li>
+            <li class="tab-button" data-id="2">Shipping</li>
+        </ul>
+        <div class="tab-content">
+            <p>상품설명입니다. Product</p>
+        </div>
+        <div class="tab-content show">
+            <p>스펙설명입니다. Information</p>
+        </div>
+        <div class="tab-content">
+            <p>배송정보입니다. Shipping</p>
+        </div>
+    </div>
+
+    <script>
+        document.querySelector('.list').addEventListener('click', function(e) {
+
+            탭열기(e.target.dataset.id)
+
+        })
+
+        function 탭열기(i) {
+            document.querySelectorAll('.tab-button')[i].addEventListener('click', function() {
+                document.querySelectorAll('.tab-button').forEach(function(button) {
+                    button.classList.remove('orange')
+                })
+
+                document.querySelectorAll('.tab-button')[i].classList.add('orange');
+
+                document.querySelectorAll('.tab-content').forEach(function(button) {
+                    button.classList.remove('show')
+                });
+
+                document.querySelectorAll('.tab-content')[i].classList.add('show');
+            });
+        }
+    </script>
+
+</body></html>

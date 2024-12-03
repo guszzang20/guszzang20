@@ -1,0 +1,492 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <link href="main.css" rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+     <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="collapse navbar-collapse d-flex justify-content-center" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="index.html">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="about.html">About</a>
+                </li>
+                 <li class="nav-item">
+                    <a class="nav-link" href="product.html">Product</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="profile.html">profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="SNS.html">SNS</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="admin.html">Admin</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="cart.html">Cart</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!--
+    <script>
+        window.addEventListener('scroll', function() {
+                    if (window.scrollY > 100) {
+                        document.querySelector('.navbar').style.fontSize = "40px";
+                    } else if (window.scrollY < 100) {
+                        document.querySelector('.navbar').style.fontSize = "50px";
+                        console.log(document.querySelector('.navbar').scrollTop);
+                    }
+                }
+    </script>
+-->
+    <div class="alert alert-danger" style="margin: 0;">
+        <span id="">5</span>초 이내 구매시 사은품 증정!
+    </div>
+
+    <script>
+        setTimeout(function() {
+            $('.alert').hide();
+        }, 5000)
+
+    </script>
+
+    <div class="black-bg">
+        <div class="white-bg">
+            <h4>로그인하세요</h4>
+            <form action="success.html">
+                <div class="my-3">
+                    <input type="text" id="username" class="form-control">
+                </div>
+                <div class="my-3">
+                    <input type="password" id="password" class="form-control">
+                </div>
+                <button type="submit" id="send" class="btn btn-primary">전송</button>
+                <button type="button" class="btn btn-danger" id="close">닫기</button>
+                <button type="button" class="btn btn-primary" id="sign">회원가입</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.querySelector('#sign').addEventListener('click', function() {
+            document.querySelector('.black-bg2').classList.add('fuckingshow');
+        })
+
+    </script>
+
+    <script>
+        document.querySelector('#send').addEventListener('click', function() {
+            var username = document.getElementById('username').value.trim();
+            var password = document.getElementById('password').value.trim();
+
+            if (username == '') {
+                alert('아이디 입력해주세요');
+                event.preventDefault();
+            } else if (password == '') {
+                alert('비밀번호 입력해주세요')
+                event.preventDefault();
+            } else if (password.length < 6) {
+                alert('비밀번호 더 길게')
+                event.preventDefault();
+            }
+            if (/\S+@\S+\.\S+/.test(username) == false) {
+                alert('이메일 형식 아님');
+                event.preventDefault();
+            } else if (/[A-Z]/.test(password) == false) {
+                alert('대문자 넣으셈');
+                event.preventDefault();
+            }
+        })
+
+    </script>
+
+    <div class="black-bg2">
+        <div class="modal-sign">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" style="color: white;">Policy</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="lorem" style="width: 500px; height: 200px; overflow-y: scroll; color: white;">
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae voluptas voluptatum minus praesentium fugit debitis at, laborum ipsa itaque placeat sit, excepturi eius. Nostrum perspiciatis, eligendi quae consectetur praesentium exercitationem.
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae voluptas voluptatum minus praesentium fugit debitis at, laborum ipsa itaque placeat sit, excepturi eius. Nostrum perspiciatis, eligendi quae consectetur praesentium exercitationem. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptate consequatur fugiat reprehenderit harum praesentium doloremque perspiciatis vitae nam in tempore sint laudantium aperiam sunt vel veritatis, et, soluta ullam voluptatem? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci eius fugit dolor praesentium itaque rem, ratione provident hic eaque cupiditate neque accusamus consectetur architecto distinctio. Eligendi sapiente fuga eveniet, quia. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sit autem, possimus eligendi sequi, aliquid quam! Nesciunt assumenda perferendis, quas vel optio enim eius fugiat suscipit unde sint ut, est tempora.
+                        </div>
+                    </div>
+                    <div class="modal-footer mt-2">
+                        <div class="form-check me-4">
+                            <input class="form-check-input" type="checkbox" id="flexCheckChecked">
+                            <label class="form-check-label" for="flexCheckChecked" style="color: white;">
+                                위의 내용에 동의합니다.
+                            </label>
+                        </div>
+                        <button type="button" id="sign-close" aria-busy="" class="btn btn-secondary">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let alertShown = false;
+
+        document.querySelector('.lorem').addEventListener('scroll', function() {
+            var 내린높이 = document.querySelector('.lorem').scrollTop;
+            console.log(내린높이);
+            var 총높이 = document.querySelector('.lorem').scrollHeight;
+            var div높이 = document.querySelector('.lorem').clientHeight;
+            console.log(div높이);
+            console.log(총높이);
+
+            if (!alertShown && Math.ceil(내린높이) + div높이 + 30 > 총높이) {
+                alert('약관을 모두 읽으셨습니다.');
+                alertShown = true; // 플래그를 true로 설정하여 한 번만 실행되도록 함
+            }
+        })
+
+    </script>
+
+    <script>
+        document.querySelector('#sign-close').addEventListener('click', function() {
+            document.querySelector('.black-bg2').classList.remove('fuckingshow');
+        })
+
+    </script>
+
+    <div class="main-bg">
+        <h4>Shirts on Sale</h4>
+        <button id="login" class="btn btn-danger">로그인</button>
+    </div>
+
+
+    <script>
+        var count = 0;
+        document.getElementsByClassName('badge')[0].addEventListener('click', function() {
+            count = count + 1;
+            console.log(count);
+
+            if (count % 2 == 1) {
+                document.getElementsByClassName('badge')[0].innerHTML = 'light 🔄'
+            } else {
+                document.getElementsByClassName('badge')[0].innerHTML = 'dark 🔄';
+            }
+
+        });
+
+    </script>
+
+    <script>
+        document.querySelector('#login').addEventListener('click', function() {
+            document.querySelector('.black-bg').classList.add('fuckingshow');
+        });
+
+        document.querySelector('.btn-danger').addEventListener('click', function() {
+            document.querySelector('.black-bg').classList.remove('fuckingshow');
+        })
+
+        document.querySelector('.black-bg').addEventListener('click', function(e) {
+
+            if (e.target == document.querySelector('.black-bg')) {
+                document.querySelector('.black-bg').classList.remove('fuckingshow');
+            }
+        })
+
+    </script>
+
+    <div style="overflow: hidden">
+        <div class="slide-container">
+            <div class="slide-box">
+                <img src="picture/shoes1.jpg" draggable="false">
+            </div>
+            <div class="slide-box" style="height: 100%;">
+                <img src="picture/shoes2.jpg">
+            </div>
+            <div class="slide-box" style="height: 100%;">
+                <img src="picture/shoes3.jpg">
+            </div>
+        </div>
+    </div>
+
+    <button class="slide-1">1</button>
+    <button class="slide-2">2</button>
+    <button class="slide-3">3</button>
+    <button class="next">다음</button>
+
+
+
+    <script>
+        // 사진 드레그 시 사진 이동
+        var 시작 = 0;
+        var 움직임 = 0;
+        var 눌림 = false;
+        document.querySelectorAll('.slide-box')[0].addEventListener('mousedown', function(e) {
+            눌림 = true;
+            시작 = e.clientX;
+
+        })
+        document.querySelectorAll('.slide-box')[0].addEventListener('mousemove', function(e) {
+            움직임 = e.clientX;
+
+        })
+        document.querySelectorAll('.slide-box')[0].addEventListener('mouseup', function(e) {
+            눌림 = false;
+            if (Math.abs(움직임 - 시작) < 200) {
+                document.querySelector(".slide-container").style.transform = 'translateX(0vw)'
+                document.querySelector(".slide-container").style.transition = 'all 0.5s'
+            } else {
+                document.querySelector(".slide-container").style.transform = 'translateX(-100vw)'
+                document.querySelector(".slide-container").style.transform = 'all 0.5s'
+            }
+
+            setTimeout(() => {
+                document.querySelector(".slide-container").style.transition = 'none'
+            }, 500)
+            // 0.5초 후에 {} 코드 실행
+
+        })
+
+        document.querySelectorAll('.slide-box')[0].addEventListener('mousemove', function(e) {
+            if (눌림 == true) {
+                $('.slide-container').eq(0).css('transform', `translateX(${움직임-시작}px)`)
+
+            }
+        })
+
+    </script>
+
+
+    <script>
+        var 지금사진 = 1;
+
+        document.querySelector(".slide-2").addEventListener('click', function() {
+            document.querySelector(".slide-container").style.transform = 'translateX(-100vw)'
+
+            지금사진 = 2;
+
+        })
+
+        document.querySelector(".slide-1").addEventListener('click', function() {
+            document.querySelector(".slide-container").style.transform = 'translateX(0vw)'
+
+            지금사진 = 1;
+
+        })
+        document.querySelector(".slide-3").addEventListener('click', function() {
+            document.querySelector(".slide-container").style.transform = 'translateX(-200vw)'
+            지금사진 = 3
+        })
+
+        document.querySelector('.next').addEventListener('click', function() {
+            if (지금사진 == 1) {
+                document.querySelector(".slide-container").style.transform = 'translateX(-100vw)'
+                지금사진 = 2;
+            } else if (지금사진 == 2) {
+                document.querySelector(".slide-container").style.transform = 'translateX(-200vw)'
+                지금사진 = 3;
+            } else if (지금사진 == 3) {
+                document.querySelector(".slide-container").style.transform = 'translateX(0vw)'
+                지금사진 = 1;
+            }
+        })
+
+    </script>
+
+<br>
+   
+    <div class="container">
+        <div class="row" id="serious">
+        </div>
+    </div>
+
+    <div class="container my-3">
+        <button class="btn btn-danger" id="price">가격순정렬
+        </button>
+    </div>
+    <div class="container my-3">
+        <button class="btn btn-danger" id="string">다나가순정렬
+        </button>
+    </div>
+    <div class="container my-3">
+        <button class="btn btn-danger" id="below">6만원이하
+        </button>
+    </div>
+
+
+    <div class="container">
+        <button class="btn btn-danger" id="more">더보기</button>
+    </div>
+
+    <script>
+        var products = [{
+                id: 0,
+                price: 70000,
+                title: 'Blossom Dress'
+            },
+            {
+                id: 1,
+                price: 50000,
+                title: 'Springfield Shirt'
+            },
+            {
+                id: 2,
+                price: 60000,
+                title: 'Black Monastery'
+            }
+        ];
+
+        products.forEach(function(a, i) {
+            var 템플릿 = `<div class="col-sm-4">
+        <img src="https://via.placeholder.com/600" class="w-100">
+        <h5>${products[i].title}</h5>
+        <p>가격 : ${a.price}</p>
+        <button id="buy">구매</button>
+      </div>`;
+            document.querySelector('#serious').insertAdjacentHTML('beforeend', 템플릿);
+        })
+    </script>
+
+    <script>
+        // 구매 버튼 클릭 시
+        document.querySelectorAll('#buy').forEach(function(e) {
+            e.addEventListener('click', function(e) {
+                var title = e.target.parentElement.querySelector('h5').innerText;
+
+                // 기존의 cart 배열을 localStorage에서 가져옴
+                var cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+                // 새로운 상품을 배열에 추가
+                cart.push(title);
+
+                // 업데이트된 cart 배열을 다시 localStorage에 저장
+                localStorage.setItem('cart', JSON.stringify(cart));
+
+
+            });
+        });
+    </script>
+
+    <script>
+        //가격순 정렬
+        document.querySelector('#price').addEventListener('click', function() {
+            products.sort(function(a, b) {
+                return a.price - b.price
+
+            })
+
+            document.querySelector('.row').innerHTML = '';
+
+            products.forEach(function(a, i) {
+                var 템플릿 = `<div class="col-sm-4">
+        <img src="https://via.placeholder.com/600" class="w-100">
+        <h5>${products[i].title}</h5>
+        <p>가격 : ${a.price}</p>
+      </div>`;
+                document.querySelector('.row').insertAdjacentHTML('beforeend', 템플릿);
+            })
+        });
+    </script>
+
+    <script>
+        // 다나가순 정렬
+        document.querySelector('#string').addEventListener('click', function() {
+            products.sort((a, b) => b.title.localeCompare(a.title))
+
+            document.querySelector('.row').innerHTML = '';
+
+            products.forEach(function(a, i) {
+                var 템플릿 = `<div class="col-sm-4">
+        <img src="https://via.placeholder.com/600" class="w-100">
+        <h5>${products[i].title}</h5>
+        <p>가격 : ${a.price}</p>
+      </div>`;
+                document.querySelector('.row').insertAdjacentHTML('beforeend', 템플릿);
+            })
+
+        })
+    </script>
+    <script>
+        // 6만원 이하
+        document.querySelector('#below').addEventListener('click', function() {
+            var products2 = products.filter((a) =>
+                a.price <= 60000
+            )
+
+            document.querySelector('.row').innerHTML = '';
+
+            products2.forEach(function(a, i) {
+                var 템플릿 = `<div class="col-sm-4">
+        <img src="https://via.placeholder.com/600" class="w-100">
+        <h5>${products2[i].title}</h5>
+        <p>가격 : ${a.price}</p>
+      </div>`;
+                document.querySelector('.row').insertAdjacentHTML('beforeend', 템플릿);
+            })
+        })
+    </script>
+    <script>
+        var x = 0;
+        document.querySelector("#more").addEventListener('click', function() {
+            x++;
+            if (x == 1) {
+                $.get('https://codingapple1.github.io/js/more1.json').done(function(data) {
+
+                    data.forEach(function(item) {
+                        var 템플릿 = `<div class="col-sm-4">
+        <img src="https://via.placeholder.com/600" class="w-100">
+        <h5>${item.title}</h5>
+        <p>가격 : ${item.price}</p>
+      </div>`;
+                        document.querySelector('.row').insertAdjacentHTML('beforeend', 템플릿);
+                    })
+                    x++;
+
+                }).fail(function() {
+                    console.log("실패함")
+                })
+            } else if (x > 1) {
+
+                $.get('https://codingapple1.github.io/js/more2.json').done(function(data) {
+                    data.forEach(function(item, i) {
+                        var 템플릿2 = `<div class="col-sm-4">
+        <img src="https://via.placeholder.com/600" class="w-100">
+        <h5>${item.title}</h5>
+        <p>가격 : ${item.price}</p>
+      </div>`;
+
+                        document.querySelector('.row').insertAdjacentHTML('beforeend', 템플릿2);
+                    })
+                }).fail(function() {
+                    console.log("실패함")
+                })
+
+                document.querySelector('#more').classList.add('hide')
+            }
+        })
+    </script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+    </script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+    </script>
+
+    <div style="height: 2000px"></div>
+
+</body>
+
+</html>

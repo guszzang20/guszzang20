@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+    <link href="answer.css" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="container">
+        <input id="search" placeholder="검색어입력">
+    </div>
+
+
+
+    <div class="container">
+        <div class="row product-list">
+            <!-- <div class="col-md-3">
+        <img src="">
+        <h4>상품명 : </h4>
+        <p>가격 : </p>
+      </div> -->
+        </div>
+
+    </div>
+
+    <div class="container basket-wrap" style="background : #e2e2e2">
+        <h4>장바구니 (드래그 가능)</h4>
+        <div class="row basket">
+
+        </div>
+    </div>
+    <div class="container my-3">
+        <h4>최종가격</h4>
+        <p class="final-price"></p>
+        <button class="buy">구매하기</button>
+    </div>
+
+
+    <div class="modal1" style="display: block;">
+        <div class="white-bg">
+            <h4>성함</h4>
+            <input type="text" id="name">
+            <h4>연락처</h4>
+            <input type="text" id="phone">
+            <button class="show-receipt">입력완료</button>
+            <div>
+                <button class="close">닫기</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal2" style="display: none;">
+        <div class="white-bg">
+            <h4>영수증</h4>
+            <canvas id="canvas" width="350" height="350"></canvas>
+            <div>
+                <button class="close">닫기</button>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        //===========================
+        //상품진열기능
+        //===========================
+
+        //1. 페이지 로드시 json 파일 상품데이터 가져와서
+        //2. html 템플릿 만들어서 그걸 상품갯수만큼 꽂아넣음 근데 템플릿 안에 상품정보들이 들어있어야함    
+        
+        let products = [];
+        let cart = [];
+
+
+        //1. 페이지 로드시 json 파일 상품데이터 가져와서
+        $.get('store.json').then((data) => {
+            //원본데이터 다른 코드에서 많이 쓰던데 그래서 변수에 보관
+            products = data.products;
+            //2. html 템플릿 만들어서 꽂아넣기
+            data.products.forEach((a, i) => {
+                $('.product-list').append(`
+          <div class="col-md-3 test" draggable="true" data-id="${a.id}" >
+            <div class="item" >
+              <img src="${a.photo}" class="card-img-top">
+              <h4>${a.title}</h4>
+              <h4>${a.brand}</h4>
+              <p>가격 : ${a.price}</p>
+              <button class="add" data-id="${a.id}">담기</button>
+            </div>
+          </div>`)
+            });
+
+
+
+
+            //========================
+            //담기버튼 기능
+            //========================
+
+
+            //1. 담기버튼 누르면 누른 상품을 cart 변수에 {} 형태로 보관해야되는데
+            //2. 근데 이미 cart 변수에 같은 id가 존재하면 수량만 ++
+            //3. 존재하지 않으면 cart 변수에 {} 하나 추가
+            //4. 장바구니 까만박스에 cart변수에 있던 내용넣어서 html 만들어주기
+
+
+
+            $('.add').click(function(e) {
+
+
+                let productId = e.target.dataset.id;
+
+
+                // 존재하지 않으면 cart 변수에 {} 하나 추가
+                let 몇번째 = cart.findIndex((a) => {
+                    return a.id == productId
+                })
+
+                if (몇번째 == -1) {
+                    let 현재상품 = products.find((a) => {
+                        return a.id == productId
+                    });
+
+                    현재상품.count = 1;
+
+                    cart.push(현재상품);
+                } else {
+                    cart[몇번째].count++;
+                    //이미 cart 변수에 같은 id가 존재하면 수량만 ++
+                }
+                console.log(cart);
+
+
+
+                // 장바구니 까만박스에 cart변수에 있던 내용넣어서 html 만들어주기
+
+                $('.basket').html('');
+                cart.forEach((a, i) => {
+                    $('.basket').append(`
+            <div class="col-md-3 bg-white">
+              <img src="${a.photo}">
+              <h4>${a.title}</h4>
+              <h4>${a.brand}</h4>
+              <p>${a.price}</p>
+              <input type="number" value="${a.count}" class="item-count w-100">
+            </div>
+          `);
+                });
+
+                //총가격 계산해서 표기해주는 기능도 필요할듯
+                가격계산();
+
+                //input값 조절해도 총가격 계산해서 표기해줘야될듯
+                $('.item-count').on('input', function() {
+                    가격계산();
+                });
+
+
+            }); //add버튼 끝
+
+
+            //===================
+            //.item 드래그로 장바구니에 추가기능
+            //===================
+
+            //1. 드래그 시작하면 뭘 드래그했는지 dataTransfer어쩌구에 저장해둠
+            //2. 까만곳에 드랍이벤트 발생시 어떤 상품이 드래그중인지 가져와서 장바구니에 항목 생성해야함
+
+
+            // .item에 'dragstart' 이벤트 리스너 추가
+            document.querySelectorAll('.test').forEach(function(e) {
+                e.addEventListener('dragstart', function(e) {
+                    e.dataTransfer.setData('왜안되냐', e.target.dataset.id); // 드래그 중 데이터 전송
+                });
+            });
+
+            // .basket에 'dragover' 이벤트 리스너 추가
+            document.querySelector('.basket').addEventListener('dragover', function(e) {
+                e.preventDefault(); // 드래그 중 기본 동작 방지
+            });
+
+            // .basket에 'drop' 이벤트 리스너 추가
+            document.querySelector('.basket').addEventListener('drop', function(e) {
+                e.preventDefault();
+
+                // 드랍된 요소의 id를 가져옴
+                let productId = e.dataTransfer.getData('왜안되냐');
+                console.log(productId);
+
+                // .add 버튼의 productId번째 요소를 강제로 클릭
+                document.querySelectorAll('.add')[productId].click();
+            });
+
+
+
+
+
+        }); //$.get().then() 끝
+
+    </script>
+
+
+
+
+
+    <script>
+        //===========================
+        //총가격 계산해서 표기해주는 기능
+        //===========================
+
+        //1. 현재 장바구니에 있는 첫 항목의 수량과 가격을 찾아서 곱함
+        //2. 현재 장바구니에 있는 둘째 항목의 수량과 가격을 찾아서 곱함
+        //...
+        //3. 그것들 다 더해서 .final-price 안에 넣어줌
+
+        function 가격계산() {
+
+            let finalPrice = 0;
+
+            for (let i = 0; i < $('.item-count').length; i++) {
+                var price = $('.item-count').eq(i).val();
+                var count = $('.item-count').eq(i).siblings('p').text();
+                finalPrice += parseFloat(price * count);
+            }
+
+            console.log('총 가격', finalPrice);
+            $('.final-price').html('합계 ' + finalPrice)
+        }
+
+    </script>
+
+
+
+    <script>
+        //===========================
+        //주문 누르면 뜨는 모달창, 영수증 기능 
+        //=========================== 
+
+        //1. 최하단 주문버튼 누르면 모달창1 띄워주기
+        //2. 유저가 모달창1에 뭐 입력하면 저장해둠
+        //3. 모달창1의 완료버튼 누르면 모달창2(영수증) 보여줌 근데 거기에 여러가지 정보들 적어줌
+
+        //1. 최하단 주문버튼 누르면 모달창1 띄워주기
+        $('.buy').click(function() {
+            $('.modal1').css('display', 'block');
+
+        });
+
+
+        //2. 유저가 모달창1에 뭐 입력하면 저장해둠
+
+        let 성함 = '';
+        let 연락처 = '';
+
+        $('#name').on('input', function() {
+            성함 = $('#name').val();
+        });
+
+        $('#phone').on('input', function() {
+            연락처 = $('#phone').val();
+        });
+
+
+        //3. 모달창1의 완료버튼 누르면 모달창2(영수증) 보여줌
+        //거기안엔 canvas태그로 그림그려줌 
+
+        $('.show-receipt').click(function() {
+            $('.modal1').css('display', 'none');
+            $('.modal2').css('display', 'block');
+
+            var canvas = document.querySelector('#canvas');
+            var c = canvas.getContext('2d');
+            c.font = '16px dotum';
+            c.fillText('구매자 : ' + 성함, 20, 30);
+            c.fillText('연락처 : ' + 연락처, 20, 60);
+            c.fillText(document.querySelector('.final-price').innerHTML, 20, 90);
+
+            //상품명들 보여주려면 장바구니 상품만큼 c.fillText() 하면 되겠군요 
+
+        })
+
+    </script>
+
+
+
+
+
+    <script>
+        //===========================
+        //검색기능 
+        //=========================== 
+
+        //1. 검색창에 뭔가 입력될때마다 
+        //2. 지금입력한 검색어가 제목에 포함된 {상품}만 let products array에서 찾아서 변수같은 곳에 저장함
+        //3. 현재 상품목록 지우고 변수에 있던 상품들만 사용해서 다시 진열
+        //4. 진열된 상품들 제목부분에서 검색어 찾아서 노란색 배경 넣기
+
+        document.querySelector('#search').addEventListener('input', function() {
+            let 검색어 = document.querySelector('#search').value;
+
+
+            //2. 지금입력한 검색어가 제목에 포함된 {상품}만 let products array에서 찾아서 변수같은 곳에 저장함
+
+            let newProducts = products.filter((e) => {
+                return e.title.includes(검색어) || e.brand.includes(검색어)
+            });
+
+
+
+            //3. 현재 상품목록 지우고 변수에 있던 상품들만 사용해서 다시 진열
+
+            //            $('.product-list').html('');
+            //            newProducts.forEach((e, i) => {
+            //                $('.product-list').append(`
+            //          <div class="col-md-3">
+            //            <img src="${e.photo}">
+            //            <h4>${e.title}</h4>
+            //            <h4>${e.brand}</h4>
+            //            <p>가격 : ${e.price}</p>
+            //            <button class="add" data-id="${e.id}">담기</button>
+            //          </div>`)
+            //            });
+
+            document.querySelector('.product-list').innerHTML = ''; // 기존 내용을 지움;
+            
+
+            let html = ''; // 새로운 HTML을 저장할 변수
+            newProducts.forEach((e) => {
+                html += `<div class="col-md-3">
+            <img src="${e.photo}">
+            <h4>${e.title}</h4>
+            <h4>${e.brand}</h4>
+            <p>가격 : ${e.price}</p>
+            <button class="add" data-id="${e.id}">담기</button></div>`;
+            });
+
+            // 한 번에 innerHTML로 삽입
+            document.querySelector('.product-list').innerHTML = html;
+
+
+
+            //4. 진열된 상품들 제목부분에서 검색어 찾아서 노란색 배경 넣기
+            //jQuery로 여러개 찾은건 each반복문 붙여야 잘됨 
+
+            //            $('.product-list h4').each(function(i, html요소) {
+            //                let title = html요소.innerHTML;
+            //                title = title.replace(검색어, `<span style="background : yellow">${검색어}</span>`);
+            //                console.log(title);
+            //
+            //                html요소.innerHTML = title;
+            //            })
+
+            //상품목록을 지우고 다시 생성했으니 $('.add') 이벤트리스너도 다시 달아놔야할듯 
+            //길어서 생략함 
+
+
+            document.querySelectorAll('.product-list h4').forEach(function(e) {
+                let title = e.innerHTML;
+                title = title.replace(검색어, `<span style="background: yellow">${검색어}</span>`);
+                console.log(title);
+
+                e.innerHTML = title;
+            });
+
+
+
+
+        });
+
+    </script>
+
+
+    <script>
+        //===========================
+        //모달창 2개 닫기 기능 
+        //===========================
+
+        $('.close').click(function(e) {
+            //그냥 2개 동시에 닫음
+            $(e.target).parents('.modal1').css('display', 'none');
+            $(e.target).parents('.modal2').css('display', 'none');
+        });
+
+    </script>
+
+
+</body>
+
+</html>
